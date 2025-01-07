@@ -86,11 +86,13 @@ function SingleRound(humanDecision, computerDecision){
     if(humanScore == 5){
         gameWinner.textContent = 'HUMAN WINS THE GAME';
         list.appendChild(gameWinner);
-        
+        removeButtons();
+
     }
-    if(computerScore== 5){
+    if(computerScore == 5){
         gameWinner.textContent = 'COMPUTER WINS THE GAME';
         list.appendChild(gameWinner);
+        removeButtons();
         
     }
 }
@@ -111,3 +113,9 @@ buttons.map(button => {
 
 // }
 // PlayGame();
+
+function removeButtons(){
+    buttons.map(button => {
+        button.parentNode.removeChild(button);
+    })
+}
