@@ -1,7 +1,10 @@
-// Step 2: Write the logic to get the computer choice
-// Your game will be played against the computer. 
-// You will write a function that randomly returns 
-// “rock”, “paper” or “scissors
+//figure out how to remove the buttons or stop the game once 
+//someone has won
+let humanScore = 0;
+let computerScore = 0;
+const list = document.querySelector('ul');
+const scoreText = document.querySelector('h3');
+const gameWinner = document.createElement('h1');
 
 function GetComputerDecision(){
     let decision = '';
@@ -21,82 +24,90 @@ function GetComputerDecision(){
     }
     return decision;
 }
-// Step 3: Write the logic to get the human choice
-// Your game will be played by a human player. 
-// You will write a function that takes the user 
-// choice and returns it.
+function GetHumanDecision(target){
+    // let decision = prompt("Please enter rock, paper, or scissors.").toLowerCase();
+    // while(decision != "scissors" && decision != "rock" && decision != "paper"){
+    //     console.log('Input invalid. Please enter either rock, paper, or scissors.')
+    //     decision = prompt("Please enter rock, paper, or scissors.").toLowerCase();
+    // }
 
-function GetHumanDecision(){
-    let decision = prompt("Please enter rock, paper, or scissors.").toLowerCase();
-    while(decision != "scissors" && decision != "rock" && decision != "paper"){
-        console.log('Input invalid. Please enter either rock, paper, or scissors.')
-        decision = prompt("Please enter rock, paper, or scissors.").toLowerCase();
-    }
-
-    return decision;
+    return target.textContent;
 }
-
-// Step 4: Declare the players score variables
-// Your game will keep track of the players score. 
-// You will write variables to keep track of the players score.
-
-let humanScore = 0;
-let computerScore = 0;
-
-// Step 5: Write the logic to play a single round
-// Your game will be played round by round. 
-// You will write a function that takes the human 
-// and computer player choices as arguments, plays 
-// a single round, increments the round winner’s 
-// score and logs a winner announcement.
 
 function SingleRound(humanDecision, computerDecision){
     console.log('human played: ' + humanDecision);
     console.log('computer decision: ' + computerDecision);
+
+    const paragraphNode = document.createElement('p');
+    paragraphNode.textContent = 'human played: ' + humanDecision + '  computer decision: ' + computerDecision;
+    list.appendChild(paragraphNode);
+
+    const roundWinner = document.createElement('p');
+    
     if (humanDecision == computerDecision){
         console.log('tie')
-    }
-    if(humanDecision == 'paper') {
+        roundWinner.textContent = 'tie';
+    }else if(humanDecision == 'paper') {
         if(computerDecision == 'rock'){
             console.log('human wins!');
+            roundWinner.textContent = 'human wins!';
             humanScore++;
         }else{
             console.log('computer wins!');
+            roundWinner.textContent = 'computer wins!';
             computerScore++;
         }
     }else if(humanDecision == 'rock') {
         if(computerDecision == 'scissors'){
             console.log('human wins!');
+            roundWinner.textContent = 'human wins!';
             humanScore++;
         }else{
             console.log('computer wins!');
+            roundWinner.textContent = 'computer wins!';
             computerScore++;
         }
     } else if(humanDecision == 'scissors') {
         if(computerDecision == 'paper'){
             console.log('human wins!');
+            roundWinner.textContent = 'human wins!';
             humanScore++;
         }else{
             console.log('computer wins!');
+            roundWinner.textContent = 'computer wins!';
             computerScore++;
         }
     }
-}
+    //change score text and add winner text to list
+    scoreText.textContent = 'human: ' + humanScore + ' computer: ' + computerScore;
+    list.appendChild(roundWinner);
 
-
-// Step 6: Write the logic to play the entire game
-// Your game will play 5 rounds. 
-// You will write a function named playGame that
-//  calls playRound to play 5 rounds, keeps track 
-//  of the scores and declares a winner at the end.
-
-function PlayGame(){
-    for(let i = 0; i < 5; i++){
-        SingleRound(GetComputerDecision(), GetHumanDecision());
+    //check for winner
+    if(humanScore == 5){
+        gameWinner.textContent = 'HUMAN WINS THE GAME';
+        list.appendChild(gameWinner);
+        
     }
-
-    console.log('human score is: ' + humanScore);
-    console.log('computer score is: ' + computerScore);
-
+    if(computerScore== 5){
+        gameWinner.textContent = 'COMPUTER WINS THE GAME';
+        list.appendChild(gameWinner);
+        
+    }
 }
-PlayGame();
+
+const buttons = [...document.querySelectorAll('button')];
+
+buttons.map(button => {
+    button.addEventListener('click', (e)=> SingleRound(GetHumanDecision(e.target), GetComputerDecision()))
+});
+
+// function PlayGame(){
+//     for(let i = 0; i < 5; i++){
+//         SingleRound(GetComputerDecision(), GetHumanDecision());
+//     }
+
+//     console.log('human score is: ' + humanScore);
+//     console.log('computer score is: ' + computerScore);
+
+// }
+// PlayGame();
